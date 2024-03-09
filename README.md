@@ -41,6 +41,43 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+###Part 2:
+-category selection page:
+A category selection page with the following parameters
+1- category name with description and keyword
+2- category selection drop down menu, must include :
+2_1 - category name
+2_2 - categories assigned color
+3- buttons for submitting, adding and editing a category
+A new category has a name, description and keyword field plus preselected colors with the option to customize using a color wheel.
+Add category and edit category buttons will open a modal.
+Added and changed categories will be displayed on the dropdown menu
+examples:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![alt text](categoryTask.png)
+
+---
+
+-signup and login
+A sign up and login page, sign up requires a username, email field and password.
+
+A password field that requires the following parameters :
+At least 8 characters
+At least one capital letter
+At least one lower case letter
+At least one special character
+At least one number
+Password strength meter
+
+A drop menu must be present, showing the status of the parameters e.g:
+![alt text](passStergns2.png)
+
+As parameters are set, the menu will change the status of the parameters e.g:
+
+![alt text](passStergns.png)
+
+Signup will only require a username and password.
+
+Login should only be possible with the newly made accounts and a default admin account with the following username and password:
+Username : Admin
+Password : Admin
