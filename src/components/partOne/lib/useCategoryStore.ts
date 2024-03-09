@@ -95,7 +95,9 @@ export const useCategoryStore = create<Store>((set, get) => ({
       let sessionData: z.infer<typeof CategoryListSchema> = JSON.parse(
         sessionStorage.getItem("category") || "[]"
       );
+
       const validateSessionData = CategoryListSchema.safeParse(sessionData);
+
       if (!validateSessionData.success) {
         sessionData = [];
         sessionStorage.removeItem("category");

@@ -30,6 +30,8 @@ export const CatModal: React.FC<Props> = () => {
   };
 
   const handleCancel = () => {
+    setErrorMessage("");
+    setSuccessMessage("");
     resetFormInitialData();
     modalForm.resetFields();
     setIsModalOpen(false);
