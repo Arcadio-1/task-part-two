@@ -1,6 +1,12 @@
 import z from "zod";
 import { lowLevelRegex } from "./types";
 
+export const ColorSchema = z
+  .string()
+  .regex(/^rgba\(\s*(?:\d{1,3}\s*,\s*){3}(?:[0-9.]+)\s*\)$/, {
+    message: "Wrong color format",
+  });
+
 export const CategorySchema = z.object({
   id: z.string(),
   title: z
@@ -26,9 +32,7 @@ export const CategorySchema = z.object({
         message: "please Enter Valid keywords",
       })
   ),
-  color: z.string().regex(/^rgba\(\s*(?:\d{1,3}\s*,\s*){3}(?:[0-9.]+)\s*\)$/, {
-    message: "Wrong color format",
-  }),
+  color: ColorSchema,
 });
 export const CategoryFormFieldsValueSchema = z.object({
   id: z.string(),
@@ -52,18 +56,7 @@ export const CategoryFormFieldsValueSchema = z.object({
     .regex(lowLevelRegex, {
       message: "please Enter Valid keywords",
     }),
-  color: z.object({
-    r: z.number().min(0).max(255),
-    g: z.number().min(0).max(255),
-    b: z.number().min(0).max(255),
-    a: z.number().min(0).max(1),
-    metaColor: z.object({
-      r: z.number().min(0).max(255),
-      g: z.number().min(0).max(255),
-      b: z.number().min(0).max(255),
-      a: z.number().min(0).max(1),
-    }),
-  }),
+  color: ColorSchema,
 });
 
 export const CategoryListSchema = z.array(CategorySchema);

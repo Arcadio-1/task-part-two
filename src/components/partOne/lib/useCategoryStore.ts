@@ -5,17 +5,9 @@ import {
   CategoryListSchema,
   CategoryFormFieldsValueSchema,
 } from "./validation";
-import { Color_rgba, SetCategoryResponse } from "./types";
+import { SetCategoryResponse } from "./types";
 import { keywordsArrayToKeywordString } from "../actions/keywordsArrayToKeywordString";
-import { rgbaStringToRgbaObjcet } from "../actions/rgbaStringToRgbaObjcet";
-
-//green
-const defaultColor: Color_rgba = {
-  r: 20,
-  g: 141,
-  b: 14,
-  a: 1,
-};
+import { presetColors } from "../constants/colors";
 
 interface Store {
   isEditing: boolean;
@@ -48,7 +40,7 @@ export const useCategoryStore = create<Store>((set, get) => ({
   formInitialData: {
     id: Math.random().toString(),
     title: "",
-    color: { ...defaultColor, metaColor: defaultColor },
+    color: presetColors.yellow,
     description: "",
     keywords: "",
   },
@@ -58,7 +50,7 @@ export const useCategoryStore = create<Store>((set, get) => ({
       formInitialData: {
         id: Math.random().toString(),
         title: "",
-        color: { ...defaultColor, metaColor: defaultColor },
+        color: presetColors.yellow,
         description: "",
         keywords: "",
       },
@@ -71,7 +63,7 @@ export const useCategoryStore = create<Store>((set, get) => ({
       if (!validate.success) {
         return { formInitialData: state.formInitialData, isEditing: false };
       }
-      const color = rgbaStringToRgbaObjcet(validate.data.color);
+      const color = validate.data.color;
       if (!color) {
         return { formInitialData: state.formInitialData, isEditing: false };
       }
@@ -82,7 +74,7 @@ export const useCategoryStore = create<Store>((set, get) => ({
         isEditing: true,
         formInitialData: {
           id: validate.data.id,
-          color: { ...color, metaColor: color },
+          color: validate.data.color,
           description: validate.data.description,
           keywords: keywords,
           title: validate.data.title,

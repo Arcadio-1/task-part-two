@@ -1,15 +1,20 @@
-import { Button, ColorPicker, Form, Input, Modal } from "antd";
+import { Button, ColorPicker, Form, Input, Modal, Radio } from "antd";
 import React, { useEffect, useState } from "react";
 import { CategorySchema } from "./lib/validation";
 import { useCategoryStore } from "./lib/useCategoryStore";
 import { lowLevelRegex } from "./lib/types";
 import { rgbaObjcetToRgbaString } from "./actions/rgbaObjcetToRgbaString";
 import { keywordsStringToKeywordsArray } from "./actions/keywordsStringToKeywordsArray";
+import {
+  colorPickerDefaultColor,
+  presetColorOptions,
+} from "./constants/colors";
 type Props = {};
 
 export const CatModal: React.FC<Props> = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [customColor, setCustomColor] = useState<string | null>(null);
 
   const [modalForm] = Form.useForm();
 
@@ -30,6 +35,7 @@ export const CatModal: React.FC<Props> = () => {
   };
 
   const handleCancel = () => {
+    setCustomColor(null);
     setErrorMessage("");
     setSuccessMessage("");
     resetFormInitialData();
@@ -48,7 +54,15 @@ export const CatModal: React.FC<Props> = () => {
   const OnFinishHandler = (fieldsValue: any) => {
     setErrorMessage("");
     const id = isEditing ? formInitialData.id : Math.random().toString();
-    const color = rgbaObjcetToRgbaString(fieldsValue.color.metaColor);
+    let color: string = fieldsValue.color;
+
+    if (fieldsValue.color === colorPickerDefaultColor + "x") {
+      if (!customColor) {
+        setErrorMessage("choose a color");
+        return;
+      }
+      color = customColor;
+    }
     const keywordArray = keywordsStringToKeywordsArray(fieldsValue.keywords);
 
     const unValidate = {
@@ -79,6 +93,7 @@ export const CatModal: React.FC<Props> = () => {
       if (setCatRequest.ok) {
         setSuccessMessage(setCatRequest.message);
         modalForm.resetFields();
+        setCustomColor(null);
       } else {
         setErrorMessage(setCatRequest.message);
         sessionStorage.removeItem("category");
@@ -157,10 +172,39 @@ export const CatModal: React.FC<Props> = () => {
                 message: "Please Select Color",
               },
             ]}
-            label="Color"
+            label={isEditing ? "Change Color" : "Color"}
             name={"color"}
           >
-            <ColorPicker size="large" className="w-full" />
+            <Radio.Group className="border-transparent bg-transparent rounded-none flex gap-2 justify-center flex-wrap">
+              {presetColorOptions.map((color) => {
+                return (
+                  <Radio.Button
+                    style={{ height: "2.2rem" }}
+                    className="border-transparent bg-transparent p-0 relative checked:border-4 !rounded-none lastch first:checked:hidden"
+                    key={color.label}
+                    value={color.value}
+                  >
+                    <ColorPicker
+                      className="cursor-pointer"
+                      disabled
+                      value={color.value}
+                    />
+                  </Radio.Button>
+                );
+              })}
+              <Radio.Button
+                className="border-transparent bg-transparent checked:border-4 last:rounded-none h-auto p-0"
+                value={colorPickerDefaultColor + "x"}
+              >
+                <ColorPicker
+                  disabledAlpha={true}
+                  showText={() => <span>Custom Color</span>}
+                  onChange={(color) => {
+                    setCustomColor(rgbaObjcetToRgbaString(color.toRgb()));
+                  }}
+                />
+              </Radio.Button>
+            </Radio.Group>
           </Form.Item>
           <div className="flex gap-2">
             <Button

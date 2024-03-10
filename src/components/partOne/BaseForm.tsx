@@ -2,7 +2,8 @@ import React from "react";
 import { ColorPicker, Select } from "antd";
 import { useCategoryStore } from "./lib/useCategoryStore";
 import { Button, Form } from "antd";
-export const BaseForm = () => {
+
+export const BaseForm: React.FC = () => {
   const setIsModalOpen = useCategoryStore((state) => state.setIsModalOpen);
   const getCategorys = useCategoryStore((state) => state.getCategorys);
   const categorys = useCategoryStore((state) => state.categorys);

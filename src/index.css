@@ -37,3 +37,20 @@ code {
 .ant-input-number-group-addon {
   padding: 0px 0px !important;
 }
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.ant-radio-button-wrapper-checked:not(
+    .ant-radio-button-wrapper-disabled
+  ):first-child {
+  border-radius: 5px !important;
+  border: 2px solid rgba(248, 248, 255, 0.649);
+}
+:where(.css-dev-only-do-not-override-1pqhjni).ant-radio-button-wrapper:not(
+    :first-child
+  )::before {
+  width: 0px;
+}
+:where(
+    .css-dev-only-do-not-override-1pqhjni
+  ).ant-radio-button-wrapper:first-child {
+  border-inline-start: none;
+}

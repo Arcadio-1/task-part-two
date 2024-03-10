@@ -12,6 +12,7 @@ const PartOne = () => {
         <ConfigProvider
           theme={{
             algorithm: theme.darkAlgorithm,
+            token: {},
           }}
         >
           <BaseForm />

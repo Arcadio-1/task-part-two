@@ -20,7 +20,6 @@ export const admin: z.infer<typeof UserSchema> = {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
-    // console.log("run");
     const token = sessionStorage.getItem("token");
     if (token) {
       setAuth(true);
@@ -28,27 +27,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // console.log("XXXXXXXXXX");
     let usersList: z.infer<typeof UserListSchema> = JSON.parse(
       sessionStorage.getItem("users") || "[]"
     );
     const validateUseList = UserListSchema.safeParse(usersList);
-    // console.log(validateUseList);
     if (validateUseList.success) {
-      // console.log("TTTTTTTTT");
       const hasAdmin = validateUseList.data.findIndex(
         (user) => user.username === "admin"
       );
-      // console.log(hasAdmin);
       if (hasAdmin === -1) {
-        // console.log("QQQQQQQQ");
         sessionStorage.setItem(
           "users",
           JSON.stringify([admin, ...validateUseList.data])
         );
       }
     } else {
-      // console.log("RRRRRRR");
       sessionStorage.setItem("users", JSON.stringify([admin]));
     }
   }, []);

@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { ColorSchema } from "./validation";
+
 export const lowLevelRegex = new RegExp(
   /\s*[\w\-+\.\!\?\:\;\,\(\)\[\]\{\}]+(?:\s+[\w\-+\.\!\?\:\;\,\(\)\[\]\{\}\%]+)*\s*$/
 );
@@ -7,6 +10,11 @@ export interface Color_rgba {
   b: number;
   a: number;
 }
+
+export type ColorOptions = {
+  label: string;
+  value: z.infer<typeof ColorSchema>;
+};
 
 export type SetCategoryResponse =
   | {
